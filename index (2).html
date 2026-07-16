@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard FFVV — Kraft · Julio 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0efe9;
+  --surface:#ffffff;
+  --surface-alt:#f7f6f2;
+  --border:#e2e0d8;
+  --text:#0d0d0b;
+  --text-sec:#5a5955;
+  --text-muted:#9a9892;
+  --dk:#1F3864;
+  --gold:#BF9000;
+  --green:#3B6D11;
+  --red-bg:#FFB3B3;--red-tx:#9C0006;
+  --yel-bg:#FFEB9C;--yel-tx:#9C6500;
+  --grn-bg:#C6EFCE;--grn-tx:#375623;
+  --radius:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
+
+/* HEADER */
+.site-header{background:var(--dk);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.site-header h1{color:#fff;font-size:14px;font-weight:500;letter-spacing:.01em}
+.site-header .sub{color:rgba(255,255,255,.55);font-size:11px}
+
+/* MAIN */
+.main{max-width:1180px;margin:0 auto;padding:20px 20px 48px}
+
+/* SECTION TITLES */
+.sec-title{font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;margin-top:24px}
+
+/* KPI ROW */
+.kpi-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.kb{border-radius:var(--radius);padding:10px 14px;flex:1;min-width:100px}
+.kb.dk{background:var(--dk)}
+.kb.go{background:var(--gold)}
+.kb.gr{background:var(--green)}
+.kb.lt{background:var(--surface);border:0.5px solid var(--border)}
+.kl{font-size:10px;margin-bottom:3px;color:rgba(255,255,255,.68)}
+.kl.d{color:var(--text-sec)}
+.kv{font-size:17px;font-weight:600;color:#fff}
+.kv.d{color:var(--text);font-size:15px}
+.ks{font-size:10px;color:rgba(255,255,255,.55);margin-top:2px}
+.ks.d{color:var(--text-muted)}
+
+/* MINI GRID */
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mini{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 14px}
+.mini-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.ml{font-size:11px;color:var(--text-sec)}
+.mv{font-size:12px;font-weight:600;color:var(--text)}
+
+/* CARD */
+.card{background:var(--surface);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden;margin-bottom:18px}
+.card-hdr{padding:7px 12px;font-size:10px;font-weight:600;text-align:center;letter-spacing:.07em;color:#fff}
+.hdr-gold{background:var(--gold)}
+.hdr-dk{background:var(--dk)}
+.hdr-green{background:var(--green)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+thead{background:var(--surface-alt)}
+th{padding:7px 10px;font-size:10px;font-weight:600;color:var(--text-muted);border-bottom:0.5px solid var(--border);text-align:center;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+th.l{text-align:left}
+td{padding:7px 10px;border-bottom:0.5px solid var(--border);color:var(--text);text-align:center;font-size:12px;white-space:nowrap}
+td.l{text-align:left;font-weight:600}
+tr:last-child td{border-bottom:none;font-weight:700;background:var(--surface-alt)}
+tr:hover:not(:last-child) td{background:#f5f4ef}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.bg{background:var(--grn-bg);color:var(--grn-tx)}
+.by{background:var(--yel-bg);color:var(--yel-tx)}
+.br{background:var(--red-bg);color:var(--red-tx)}
+.bw{display:inline-flex;align-items:center;gap:5px;vertical-align:middle}
+.btrack{width:36px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.bfill{height:100%;border-radius:2px}
+
+/* IMPACT dual header */
+.dual-head{display:grid;grid-template-columns:80px 1fr 1fr;background:var(--dk)}
+.dh-cell{font-size:10px;font-weight:600;color:#fff;text-align:center;padding:5px 6px;letter-spacing:.05em}
+.dh-blue{background:#2E75B6}
+.dh-green{background:var(--green)}
+
+/* PROMO table */
+.promo-desc{text-align:left;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+
+@media(max-width:640px){
+  .kpi-row{gap:6px}
+  .kb{min-width:80px;padding:8px 10px}
+  .mini-grid{grid-template-columns:1fr}
+  .kv{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Dashboard FFVV — Kraft Preventa</h1>
+  <span class="sub">Julio 2026 &nbsp;·&nbsp; Actualizado al 15/07/2026</span>
+</header>
+
+<div class="main">
+
+  <!-- ===== SELL OUT VENTA ===== -->
+  <div class="sec-title">Sell out — venta kraft</div>
+
+  <div class="kpi-row">
+    <div class="kb dk"><div class="kl">PPTO</div><div class="kv">$74,034</div></div>
+    <div class="kb dk"><div class="kl">PPTO ideal $$</div><div class="kv" style="font-size:13px" id="v-id"></div><div class="ks">48% del ppto</div></div>
+    <div class="kb dk"><div class="kl">PPTO ideal %</div><div class="kv">48%</div></div>
+    <div class="kb go"><div class="kl">Venta $$</div><div class="kv">$31,489</div></div>
+    <div class="kb go"><div class="kl">Venta %</div><div class="kv" id="v-vp"></div></div>
+    <div class="kb gr"><div class="kl">Días vendidos</div><div class="kv">13 <span style="font-size:10px;opacity:.6">/ 27</span></div></div>
+    <div class="kb dk"><div class="kl">Días faltantes</div><div class="kv">14</div></div>
+  </div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <div class="mini-row"><span class="ml">Efectivas</span><span class="mv">2,228</span></div>
+      <div class="mini-row"><span class="ml">Dropsize</span><span class="mv">$14.13</span></div>
+      <div class="mini-row"><span class="ml">Promedio diario</span><span class="mv" id="v-prom"></span></div>
+    </div>
+    <div class="mini">
+      <div class="mini-row"><span class="ml">Proyección al cierre</span><span class="mv" id="v-proy"></span></div>
+      <div class="mini-row"><span class="ml">Proyección %</span><span class="mv" id="v-proyp"></span></div>
+      <div class="mini-row"><span class="ml">Faltante</span><span class="mv" style="color:var(--red-tx)" id="v-falt"></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr hdr-gold">SELL OUT — VENTA KRAFT · JULIO 2026</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th class="l">Ruta</th><th>Ppto</th><th>Ppto ideal $$</th><th>Ppto ideal %</th>
+        <th>Venta $$</th><th>Venta %</th><th>Faltante</th><th>Prom. día</th><th>Proyección</th><th>Proy. %</th>
+      </tr></thead>
+      <tbody id="tbody-v"></tbody>
+    </table></div>
+  </div>
+
+  <!-- ===== PRODUCTIVIDAD EFECTIVAS ===== -->
+  <div class="sec-title">Productividad — efectivas kraft</div>
+
+  <div class="kpi-row">
+    <div class="kb dk"><div class="kl">PPTO efectivas</div><div class="kv">5,009</div></div>
+    <div class="kb dk"><div class="kl">PPTO ideal</div><div class="kv" id="e-id"></div><div class="ks">48% del ppto</div></div>
+    <div class="kb dk"><div class="kl">PPTO ideal %</div><div class="kv">48%</div></div>
+    <div class="kb go"><div class="kl">Efectivas</div><div class="kv">1,964</div></div>
+    <div class="kb go"><div class="kl">Efectivas %</div><div class="kv" id="e-ep"></div></div>
+    <div class="kb gr"><div class="kl">Días vendidos</div><div class="kv">13 <span style="font-size:10px;opacity:.6">/ 27</span></div></div>
+    <div class="kb dk"><div class="kl">Días faltantes</div><div class="kv">14</div></div>
+  </div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <div class="mini-row"><span class="ml">Total efectivas</span><span class="mv">1,964</span></div>
+      <div class="mini-row"><span class="ml">Promedio diario</span><span class="mv" id="e-prom"></span></div>
+      <div class="mini-row"><span class="ml">Faltante total</span><span class="mv" style="color:var(--red-tx)" id="e-falt"></span></div>
+    </div>
+    <div class="mini">
+      <div class="mini-row"><span class="ml">Proyección al cierre</span><span class="mv" id="e-proy"></span></div>
+      <div class="mini-row"><span class="ml">Proyección %</span><span class="mv" id="e-proyp"></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr hdr-gold">PRODUCTIVIDAD (EFECTIVAS) — KRAFT · JULIO 2026</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th class="l">Ruta</th><th>Ppto</th><th>Ppto ideal</th><th>Ppto ideal %</th>
+        <th>Efectivas</th><th>Efectivas %</th><th>Faltante</th><th>Prom. día</th><th>Proyección</th><th>Proy. %</th>
+      </tr></thead>
+      <tbody id="tbody-e"></tbody>
+    </table></div>
+  </div>
+
+  <!-- ===== IMPACTOS ===== -->
+  <div class="sec-title">Impactos — kraft y G&amp;C</div>
+
+  <div class="card">
+    <div class="dual-head">
+      <div></div>
+      <div class="dh-cell dh-blue">Impactos total rutero (Kraft)</div>
+      <div class="dh-cell dh-green">G&amp;C</div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th class="l">Ruta</th>
+        <th>Rutero</th><th>Objetivo</th><th>Avance</th><th>%</th>
+        <th style="border-left:2px solid var(--border)">Objetivo</th><th>Avance</th><th>%</th>
+      </tr></thead>
+      <tbody id="tbody-imp"></tbody>
+    </table></div>
+  </div>
+
+  <!-- ===== PROMOCIONES ===== -->
+  <div class="sec-title">Uso de promociones — Gumms &amp; Candy</div>
+
+  <div class="card">
+    <div class="card-hdr hdr-gold">USO DE PROMOCIONES — GUMMS &amp; CANDY · JULIO 2026</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th class="l">Descripción promoción</th>
+        <th>Asignado</th><th>Usado</th><th>Uso %</th><th>Faltante</th>
+      </tr></thead>
+      <tbody id="tbody-promo"></tbody>
+    </table></div>
+  </div>
+
+</div>
+
+<script>
+const DV=13,DM=27,IDEAL=DV/DM;
+const fmtK=v=>'$'+Math.round(v).toLocaleString('es');
+const fmtD=v=>'$'+Number(v).toLocaleString('es',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=v=>Math.round(v*100)+'%';
+
+function bdg(p,thr=IDEAL){
+  const bw=Math.min(100,Math.round(p*100));
+  const bc=p>=thr?'#3B6D11':p>=0.35?'#ba7517':'#e24b4a';
+  const cl=p>=thr?'bg':p>=0.35?'by':'br';
+  return `<div class="bw"><div class="btrack"><div class="bfill" style="width:${bw}%;background:${bc}"></div></div><span class="badge ${cl}">${Math.round(p*100)}%</span></div>`;
+}
+function pbdg(p){const cl=p>=1?'bg':p>=0.85?'by':'br';return `<span class="badge ${cl}">${Math.round(p*100)}%</span>`;}
+
+// ---- VENTA ----
+const PPTO_V={M1:13528,M2:8977,M3:9181,LM4:9388,LM5:8503,LM8:8168,M11:8069,M12:8220};
+const VENTA={M1:5827.74,M2:3808.52,M3:4001.59,LM4:4396.35,LM5:3983.63,LM8:3408.40,M11:3383.15,M12:2679.69};
+const totPV=Object.values(PPTO_V).reduce((a,b)=>a+b,0);
+const totV=Object.values(VENTA).reduce((a,b)=>a+b,0);
+document.getElementById('v-id').textContent=fmtK(totPV*IDEAL);
+document.getElementById('v-vp').textContent=pct(totV/totPV);
+document.getElementById('v-prom').textContent=fmtK(totV/DV);
+document.getElementById('v-proy').textContent=fmtK((totV/DV)*DM);
+document.getElementById('v-proyp').textContent=pct(((totV/DV)*DM)/totPV);
+document.getElementById('v-falt').textContent=fmtK(totPV-totV);
+let sv='';
+Object.keys(PPTO_V).forEach(r=>{
+  const pp=PPTO_V[r],v=VENTA[r]||0,id=pp*IDEAL,p=v/pp,fa=pp-v,pr=v/DV,py=(v/DV)*DM,pyp=py/pp;
+  sv+=`<tr><td class="l">${r}</td><td>${fmtK(pp)}</td><td>${fmtK(id)}</td><td style="color:var(--text-muted)">${pct(IDEAL)}</td><td>${fmtD(v)}</td><td>${bdg(p)}</td><td style="color:var(--red-tx)">${fmtK(fa)}</td><td>${fmtK(pr)}</td><td>${fmtK(py)}</td><td>${pbdg(pyp)}</td></tr>`;
+});
+const tip=totPV*IDEAL,tpp=totV/totPV,tfa=totPV-totV,tpr=totV/DV,tpy=(totV/DV)*DM,tpyp=tpy/totPV;
+sv+=`<tr><td class="l">Total</td><td>${fmtK(totPV)}</td><td>${fmtK(tip)}</td><td style="color:var(--text-muted)">${pct(IDEAL)}</td><td>${fmtD(totV)}</td><td>${bdg(tpp)}</td><td style="color:var(--red-tx)">${fmtK(tfa)}</td><td>${fmtK(tpr)}</td><td>${fmtK(tpy)}</td><td>${pbdg(tpyp)}</td></tr>`;
+document.getElementById('tbody-v').innerHTML=sv;
+
+// ---- EFECTIVAS ----
+const PPTO_E={M1:875,M2:689,M3:596,LM4:583,LM5:543,LM8:583,M11:557,M12:583};
+const EFEC={M1:402,M2:311,M3:263,LM4:282,LM5:251,LM8:240,M11:244,M12:235};
+const totPE=Object.values(PPTO_E).reduce((a,b)=>a+b,0);
+const totE=Object.values(EFEC).reduce((a,b)=>a+b,0);
+document.getElementById('e-id').textContent=Math.round(totPE*IDEAL);
+document.getElementById('e-ep').textContent=pct(totE/totPE);
+document.getElementById('e-prom').textContent=Math.round(totE/DV);
+document.getElementById('e-falt').textContent=totPE-totE;
+document.getElementById('e-proy').textContent=Math.round((totE/DV)*DM);
+document.getElementById('e-proyp').textContent=pct(((totE/DV)*DM)/totPE);
+let se='';
+Object.keys(PPTO_E).forEach(r=>{
+  const pp=PPTO_E[r],e=EFEC[r]||0,id=Math.round(pp*IDEAL),p=e/pp,fa=pp-e,pr=Math.round(e/DV),py=Math.round((e/DV)*DM),pyp=py/pp;
+  se+=`<tr><td class="l">${r}</td><td>${pp}</td><td>${id}</td><td style="color:var(--text-muted)">${pct(IDEAL)}</td><td>${e}</td><td>${bdg(p)}</td><td style="color:var(--red-tx)">${fa}</td><td>${pr}</td><td>${py}</td><td>${pbdg(pyp)}</td></tr>`;
+});
+const tipe=Math.round(totPE*IDEAL),tppe=totE/totPE,tfae=totPE-totE,tpre=Math.round(totE/DV),tpye=Math.round((totE/DV)*DM),tpyep=tpye/totPE;
+se+=`<tr><td class="l">Total</td><td>${totPE}</td><td>${tipe}</td><td style="color:var(--text-muted)">${pct(IDEAL)}</td><td>${totE}</td><td>${bdg(tppe)}</td><td style="color:var(--red-tx)">${tfae}</td><td>${tpre}</td><td>${tpye}</td><td>${pbdg(tpyep)}</td></tr>`;
+document.getElementById('tbody-e').innerHTML=se;
+
+// ---- IMPACTOS ----
+const RUTERO={M1:388,M2:200,M3:193,LM4:189,LM5:203,LM8:187,M11:174,M12:207};
+const OBJ_K={M1:325,M2:185,M3:175,LM4:175,LM5:160,LM8:175,M11:160,M12:175};
+const AV_K={M1:272,M2:167,M3:148,LM4:150,LM5:127,LM8:143,M11:132,M12:132};
+const OBJ_GC={M1:231,M2:118,M3:130,LM4:131,LM5:125,LM8:121,M11:105,M12:127};
+const AV_GC={M1:107,M2:64,M3:74,LM4:66,LM5:58,LM8:54,M11:47,M12:60};
+let hi='';let tR=0,tOK=0,tAK=0,tOG=0,tAG=0;
+Object.keys(RUTERO).forEach(r=>{
+  const ru=RUTERO[r],ok=OBJ_K[r],ak=AV_K[r],og=OBJ_GC[r],ag=AV_GC[r];
+  tR+=ru;tOK+=ok;tAK+=ak;tOG+=og;tAG+=ag;
+  hi+=`<tr><td class="l">${r}</td><td>${ru}</td><td>${ok}</td><td>${ak}</td><td>${bdg(ak/ok,0.48)}</td><td style="border-left:2px solid var(--border)">${og}</td><td>${ag}</td><td>${bdg(ag/og,0.48)}</td></tr>`;
+});
+hi+=`<tr><td class="l">Total</td><td>${tR}</td><td>${tOK}</td><td>${tAK}</td><td>${bdg(tAK/tOK,0.48)}</td><td style="border-left:2px solid var(--border)">${tOG}</td><td>${tAG}</td><td>${bdg(tAG/tOG,0.48)}</td></tr>`;
+document.getElementById('tbody-imp').innerHTML=hi;
+
+// ---- PROMOCIONES ----
+const PROMOS=[
+  {desc:'Trident 1s al 15% descuento',asig:530,usado:260},
+  {desc:'MDLZ-PRM-1149 Trident 1S Sandia 40x60x1.5G',asig:75,usado:24},
+  {desc:'Trident 3s al 15% descuento',asig:508,usado:41},
+  {desc:'Halls 100s al 20% descuento',asig:48,usado:92},
+  {desc:'Trident 5s al 15% descuento',asig:140,usado:48},
+  {desc:'Halls 9s al 20% descuento',asig:120,usado:51},
+  {desc:'MDLZ-PRM-1046 Oreo Rollo Reg EC 30X108G',asig:709,usado:14},
+];
+let hp='';let tA=0,tU=0;
+PROMOS.forEach(p=>{
+  tA+=p.asig;tU+=p.usado;
+  const r=p.usado/p.asig;
+  const cl=r>=1?'br':r>=0.75?'by':'bg';
+  const bc=r>=1?'#e24b4a':r>=0.75?'#ba7517':'#3B6D11';
+  const bw=Math.min(100,Math.round(r*100));
+  hp+=`<tr><td class="l">${p.desc}</td><td>${p.asig}</td><td>${p.usado}</td><td><div class="bw"><div class="btrack"><div class="bfill" style="width:${bw}%;background:${bc}"></div></div><span class="badge ${cl}">${Math.round(r*100)}%</span></div></td><td style="${p.usado>=p.asig?'color:var(--red-tx)':''}">${p.asig-p.usado}</td></tr>`;
+});
+const tr=tU/tA,tbc=tr>=1?'#e24b4a':tr>=0.75?'#ba7517':'#3B6D11',tcl=tr>=1?'br':tr>=0.75?'by':'bg',tbw=Math.min(100,Math.round(tr*100));
+hp+=`<tr><td class="l">Total general</td><td>${tA}</td><td>${tU}</td><td><div class="bw"><div class="btrack"><div class="bfill" style="width:${tbw}%;background:${tbc}"></div></div><span class="badge ${tcl}">${Math.round(tr*100)}%</span></div></td><td>${tA-tU}</td></tr>`;
+document.getElementById('tbody-promo').innerHTML=hp;
+</script>
+</body>
+</html>
